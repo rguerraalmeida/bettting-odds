@@ -5,8 +5,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BettingUI.Screens"
+        xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
-        Title="AnaliticsWindow" Height="397.492" Width="705" Loaded="Window_Loaded">
+        Title="AnaliticsWindow" Height="553.492" Width="1205" Loaded="Window_Loaded">
     <Grid>
         <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
         <ComboBox x:Name="CompetitionsComboBox" HorizontalAlignment="Left" Margin="64,10,0,0" VerticalAlignment="Top" Width="120"/>
@@ -14,7 +15,23 @@
         <TextBox Name="InitialMoneyTextbox" HorizontalAlignment="Left" Height="23" Margin="189,10,0,0" TextWrapping="Wrap" Text="1000" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="ProfitOnBetTextbox" HorizontalAlignment="Left" Height="23" Margin="314,9,0,0" TextWrapping="Wrap" Text="50" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="MinimumOddBetTextbox" HorizontalAlignment="Left" Height="23" Margin="439,9,0,0" TextWrapping="Wrap" Text="3" VerticalAlignment="Top" Width="120"/>
-        <DataGrid Name="BetsGrid" Margin="10,80,138,10"/>
-
+        <DataGrid Name="BetsGrid" Margin="10,85,0,10" HorizontalAlignment="Left" Width="636"/>
+        <TextBlock HorizontalAlignment="Left" Margin="564,14,0,0" TextWrapping="Wrap" Text="Max betValue" VerticalAlignment="Top" Width="82"/>
+        <TextBlock Name="MaxBetValueTextblock" HorizontalAlignment="Left" Margin="646,14,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="82"/>
+        <TextBlock HorizontalAlignment="Left" Margin="733,13,0,0" TextWrapping="Wrap" Text="Profits" VerticalAlignment="Top" Width="82"/>
+        <TextBlock x:Name="ProfitsValueTextblock" HorizontalAlignment="Left" Margin="820,13,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="82"/>
+        <TextBox x:Name="TotalIterationsTextbox" HorizontalAlignment="Left" Height="23" Margin="64,41,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Iterations"></TextBlock>
+        <TextBox x:Name="CurrentIterationTextbox" HorizontalAlignment="Left" Height="23" Margin="189,41,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
+        <TextBlock x:Name="InformationTextblock"  HorizontalAlignment="Left" Margin="314,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <oxy:Plot Name="OxyChart" Margin="651,85,0,0" >
+            <oxy:Plot.Series>
+                <oxy:LineSeries x:Name="ChartLineSeries" />
+            </oxy:Plot.Series>
+        </oxy:Plot>
+        <ComboBox Name="ChartOperationsValue" HorizontalAlignment="Right" Margin="0,45,10,0" VerticalAlignment="Top" Width="237" SelectionChanged="ChartOperationsValue_SelectionChanged">
+            <ComboBoxItem Name="cbi1">AfterBetMoney</ComboBoxItem>
+            <ComboBoxItem Name="cbi2">BetValue</ComboBoxItem>
+        </ComboBox>
     </Grid>
 </Controls:MetroWindow>

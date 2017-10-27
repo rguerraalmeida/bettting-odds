@@ -138,6 +138,10 @@
     <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BettingStrategies\BettingStrategies.csproj">
+      <Project>{1a1288b6-84eb-449d-a101-6d801c424d87}</Project>
+      <Name>BettingStrategies</Name>
+    </ProjectReference>
     <ProjectReference Include="..\data-models\data-models.csproj">
       <Project>{171019fb-fcee-4f30-a67b-c0c50ad90ae5}</Project>
       <Name>data-models</Name>

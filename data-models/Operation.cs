@@ -15,7 +15,8 @@ namespace DataModels
         public double BetValue { get; set; }
         public bool Win { get; set; }
         public double AfterBetMoney { get; set; }
-        public double Profit { get; set; }
-        public double Recharged { get; set; }
+        //public double Profit { get; set; }
+        //public double Recharged { get; set; }
+        public double RiskFactor { get; set; }
     }
 }
