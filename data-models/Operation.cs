@@ -9,6 +9,7 @@ namespace DataModels
     public class Operation 
     {
         public int Id { get; set; }
+        public DateTime OperationDate { get; set; }
         public OperationType OperationType { get; set; }
         public double InitialMoney { get; set; }
         public double Odd { get; set; }

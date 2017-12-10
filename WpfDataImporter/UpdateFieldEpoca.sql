@@ -1,4 +1,4 @@
-﻿
+﻿/*
 UPDATE SportMatch
 SET SportMatch.Epoca = CASE 
 	WHEN CAST(MONTH(SportMatch.[Date]) as VARCHAR(2)) in ('8','9','10','11','12') THEN CAST('EPOCA '+ CAST(YEAR(SportMatch.[Date]) as varchar(4)) +'/'+CAST(YEAR(SportMatch.[Date]) + 1 as varchar(4))  as varchar(100))
@@ -6,6 +6,7 @@ SET SportMatch.Epoca = CASE
 	-- WHEN MONTH(sm.[Date]) <= 7 THEN 'EPOCA '+ (YEAR(sm.[Date]) -1) +'/'+ YEAR(sm.[Date])
 	ELSE 'oops'
 END 
+*/
 
 
 

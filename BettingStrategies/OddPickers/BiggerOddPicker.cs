@@ -13,6 +13,8 @@ namespace BettingStrategies.OddPickers
     /// </summary>
     public class BiggerOddPicker : IOddPicker
     {
+        public string Name { get { return "BiggerOddPicker"; } }
+
         public OddResult PickOdd(SportMatch sportMatch)
         {
             OddResult oddResult = new OddResult() { OddValue = -1, ExpectedResult = "I" };

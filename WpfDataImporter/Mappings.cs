@@ -13,6 +13,8 @@ namespace WpfDataImporter
             {"E0", "Premier League"},
             {"P1", "Liga NOS"},
             {"D1", "Bundesliga 1"},
+            {"SP1", "La Liga 1"},
+            {"I1", "Serie A"},
         };
     }
 }

@@ -13,6 +13,7 @@ namespace BettingStrategies.SamplePickers
     /// </summary>
     public class AllDataSamplePicker : ISamplePicker
     {
+        public string Name { get { return "AllDataSamplePicker"; } }
         public List<SportMatch> PickSampleData(List<SportMatch> sportMatches, double minValue, double maxValue)
         {
             var sampleData = sportMatches

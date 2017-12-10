@@ -32,7 +32,7 @@ namespace BettingStrategies.Strategies
             double currentMoney = initialValue;
             List<Operation> operations = new List<Operation>();
 
-            var sportMatches = sampleData.Where(w => w.HtOdd >= oddValue || w.DrawOdd >= oddValue || w.AtOdd >= oddValue).OrderBy(o => o.Date).ToList();
+            var sportMatches = sampleData;
             foreach (var gameMatch in sportMatches)
             {
                 i++;
@@ -111,6 +111,17 @@ namespace BettingStrategies.Strategies
             List<Operation> operations = new List<Operation>();
 
             var sportMatches = samplePicker.PickSampleData(sampleData, minValue, maxValue);
+
+            if (sportMatches.Count() == 0)
+            {
+                maxBetValue = 0;
+                totalProfits = 0;
+                riskFactor = 0;
+                operationsPerformed = new List<Operation>();
+                consecutiveLosses = 0;
+                return;
+            }
+
             foreach (var gameMatch in sportMatches)
             {
                 i++;
@@ -139,12 +150,12 @@ namespace BettingStrategies.Strategies
                 if (gameMatch.Result == bestOdd.ExpectedResult)
                 {
                     currentMoney += betValue * bestOdd.OddValue;
-                    operations.Add(new Operation() { Id = i, OperationType = OperationType.Bet, InitialMoney = beforeMoney, Odd = bestOdd.OddValue, BetValue = betValue, AfterBetMoney = currentMoney, Win = true, RiskFactor = risk });
+                    operations.Add(new Operation() { Id = i, OperationDate = gameMatch.Date, OperationType = OperationType.Bet, InitialMoney = beforeMoney, Odd = bestOdd.OddValue, BetValue = betValue, AfterBetMoney = currentMoney, Win = true, RiskFactor = risk });
                 }
                 else if (gameMatch.Result != bestOdd.ExpectedResult)
                 {
                     currentMoney -= betValue;
-                    operations.Add(new Operation() { Id = i, OperationType = OperationType.Bet, InitialMoney = beforeMoney, Odd = bestOdd.OddValue, BetValue = betValue, AfterBetMoney = currentMoney, Win = false, RiskFactor = risk });
+                    operations.Add(new Operation() { Id = i, OperationDate = gameMatch.Date, OperationType = OperationType.Bet, InitialMoney = beforeMoney, Odd = bestOdd.OddValue, BetValue = betValue, AfterBetMoney = currentMoney, Win = false, RiskFactor = risk });
                 }
 
                 
@@ -179,7 +190,7 @@ namespace BettingStrategies.Strategies
                     OperationResult = group.First(),
                     Count = group.Count(),
                 });
-
+            
             consecutiveLosses = groupedResults.Where(w => w.OperationResult.Win == false).Max(m => m.Count);
         }
     }

@@ -16,5 +16,15 @@ namespace DataModels
         public double RiskFactor { get; set; }
 
         public string StrategyName { get; set; }
+        public string SamplePickerName { get; set; }
+        public string OddPickerName { get; set; }
+
+        public int NumberOperastions {
+            get {
+                return OperationsPerformed.Count();
+            }
+        }
+        public List<Operation> OperationsPerformed { get; set; }
+        public List<double> MonthlyGains{ get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DataModels;
+using DataModels.Strategies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,9 @@ using System.Threading.Tasks;
 namespace BettingStrategies.OddPickers
 {
     /// Picks the odds based on probability of winning, so we choose the odd with lower racio to profit value
-    public class EasierOddPicker
+    public class EasierOddPicker : IOddPicker
     {
+        public string Name { get { return "EasierOddPicker"; } }
         public OddResult PickOdd(SportMatch sportMatch)
         {
             OddResult oddResult = new OddResult() { OddValue = -1, ExpectedResult = "I" };

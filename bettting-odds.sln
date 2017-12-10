@@ -11,6 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BettingUI", "BettingUI\Bett
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BettingStrategies", "BettingStrategies\BettingStrategies.csproj", "{1A1288B6-84EB-449D-A101-6D801C424D87}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "football-data-importer", "football-data-importer\football-data-importer.csproj", "{D401177D-20B2-4D09-A03B-B281379E84FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "football-data-unittest", "football-data-unittest\football-data-unittest.csproj", "{387C7BE8-F0CA-40A4-AC80-4EBD19ED7404}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "twitter-importer", "twitter-importer\twitter-importer.csproj", "{0CE488E8-9145-4CDF-AA12-35F5103527A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +39,18 @@ Global
 		{1A1288B6-84EB-449D-A101-6D801C424D87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A1288B6-84EB-449D-A101-6D801C424D87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A1288B6-84EB-449D-A101-6D801C424D87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D401177D-20B2-4D09-A03B-B281379E84FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D401177D-20B2-4D09-A03B-B281379E84FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D401177D-20B2-4D09-A03B-B281379E84FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D401177D-20B2-4D09-A03B-B281379E84FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{387C7BE8-F0CA-40A4-AC80-4EBD19ED7404}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{387C7BE8-F0CA-40A4-AC80-4EBD19ED7404}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{387C7BE8-F0CA-40A4-AC80-4EBD19ED7404}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{387C7BE8-F0CA-40A4-AC80-4EBD19ED7404}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CE488E8-9145-4CDF-AA12-35F5103527A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CE488E8-9145-4CDF-AA12-35F5103527A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CE488E8-9145-4CDF-AA12-35F5103527A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CE488E8-9145-4CDF-AA12-35F5103527A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

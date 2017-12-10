@@ -5,13 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfDataImporter"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="500" Width="700">
     <Grid>
         <Button x:Name="btnOpenFile" Content="O" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="26" Height="26" Click="btnOpenFile_Click"/>
         <Label x:Name="openFilePath" Content="" Margin="41,10,159,0" Height="26" VerticalAlignment="Top"/>
         <DataGrid x:Name="dataGrid" Margin="10,41,10,10"/>
         <Button x:Name="SaveRecordsBtn" Content="Save" Margin="0,10,10,0" VerticalAlignment="Top" Height="26" Click="SaveRecordsBtn_Click" HorizontalAlignment="Right" Width="58"/>
         <ProgressBar Minimum="0" Maximum="100" Value="75" Margin="0,10,73,0" Height="26" VerticalAlignment="Top" HorizontalAlignment="Right" Width="81" />
+        <TextBlock Margin="58,4,0,0" TextWrapping="Wrap" Text="Linhas do Doc" VerticalAlignment="Top" HorizontalAlignment="Left" Width="71"/>
+        <TextBlock x:Name="LinhasDocTxt" Margin="135,15,310,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="387,5,0,0" TextWrapping="Wrap" Text="Linhas Parsed" VerticalAlignment="Top" Width="71"/>
+        <TextBlock x:Name="LinhasParsedTxt" Margin="453,15,168,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+
 
 
     </Grid>

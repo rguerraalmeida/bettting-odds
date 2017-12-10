@@ -13,6 +13,7 @@ namespace DataModels
         public string AwayTeam { get; set; }
         public DateTime Date { get; set; }
         public string Competition { get; set; }
+        public string Epoca { get; set; }
         public string Result { get; set; }
         public int HomeTeamGoals { get; set; }
         public int AwayTeamGoals { get; set; }
