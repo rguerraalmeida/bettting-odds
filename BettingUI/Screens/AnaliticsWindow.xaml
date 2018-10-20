@@ -40,7 +40,7 @@
         <TextBox x:Name="MaximumOddBetTextbox" HorizontalAlignment="Left" Height="23" Margin="616,10,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="52"/>
         <TextBlock HorizontalAlignment="Left" Margin="453,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" Height="15" Text="Min Odd"/>
         <TextBlock HorizontalAlignment="Left" Margin="561,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="54" Height="15" Text="Max Odd"/>
-        <TextBox x:Name="StarYearTextbox" HorizontalAlignment="Left" Height="23" Margin="548,41,0,0" TextWrapping="Wrap" Text="2016" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="StarYearTextbox" HorizontalAlignment="Left" Height="23" Margin="548,41,0,0" TextWrapping="Wrap" Text="2007" VerticalAlignment="Top" Width="120"/>
         <TextBlock HorizontalAlignment="Left" Margin="489,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="54" Height="15" Text="Start Year
                    "/>
     </Grid>

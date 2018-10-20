@@ -16,20 +16,13 @@ namespace BettingStrategies.OddPickers
         {
             OddResult oddResult = new OddResult() { OddValue = -1, ExpectedResult = "I" };
 
-            if (sportMatch.HtOdd < sportMatch.DrawOdd && sportMatch.HtOdd < sportMatch.AtOdd)
-            {
-                oddResult = new OddResult { OddValue = sportMatch.HtOdd, ExpectedResult = "H" };
-            }
+            List<OddResult> values = new List<OddResult>() {
+                new OddResult { OddValue = sportMatch.HtOdd, ExpectedResult = "H" },
+                new OddResult { OddValue = sportMatch.DrawOdd, ExpectedResult = "D" },
+                new OddResult { OddValue = sportMatch.AtOdd, ExpectedResult = "A" }
+            }.OrderBy(o => o.OddValue).ToList();
 
-            if (sportMatch.DrawOdd < sportMatch.HtOdd && sportMatch.DrawOdd < sportMatch.AtOdd)
-            {
-                oddResult = new OddResult { OddValue = sportMatch.DrawOdd, ExpectedResult = "D" };
-            }
-
-            if (sportMatch.AtOdd < sportMatch.HtOdd && sportMatch.AtOdd < sportMatch.DrawOdd)
-            {
-                oddResult = new OddResult { OddValue = sportMatch.AtOdd, ExpectedResult = "A" };
-            }
+            oddResult = values.ToArray()[0];
 
             return oddResult;
         }

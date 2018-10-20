@@ -154,12 +154,11 @@ namespace BettingUI.Screens
             List<SampleData> samples = new List<SampleData>();
 
             List<IStrategy> strategies = new List<IStrategy>() { new MartingaleStrategie() };
-            //List<ISamplePicker> samplePickers = new List<ISamplePicker>() { new AllDataSamplePicker(), new OddsAtInterval() };
-            //List<IOddPicker> oddPickers = new List<IOddPicker>() { new BiggerOddPicker(), new EasierOddPicker(), new MiddleOddPicker() };
+            List<ISamplePicker> samplePickers = new List<ISamplePicker>() { new AllDataSamplePicker(), new OddsAtInterval() };
+            List<IOddPicker> oddPickers = new List<IOddPicker>() { new BiggerOddPicker(), new EasierOddPicker(), new MiddleOddPicker() };
 
-
-            List<ISamplePicker> samplePickers = new List<ISamplePicker>() { new AllDataSamplePicker() };
-            List<IOddPicker> oddPickers = new List<IOddPicker>() { new MiddleOddPicker() };
+            //List<ISamplePicker> samplePickers = new List<ISamplePicker>() { new AllDataSamplePicker() };
+            //List<IOddPicker> oddPickers = new List<IOddPicker>() { new MiddleOddPicker() };
 
 
             var database = Database.OpenNamedConnection("main-database");
@@ -191,8 +190,7 @@ namespace BettingUI.Screens
                         sample.TotalProfits = totalprofits;
                         sample.RiskFactor = Math.Round(riskFactor, 2);
                         sample.OperationsPerformed = operationsPerformed;
-                      
-
+                        GetMonthlyGains();
                         samples.Add(sample);
                     }
                 }
@@ -201,11 +199,8 @@ namespace BettingUI.Screens
             //var sampled = samples.Where(s => s.TotalProfits > s.InitialValue);
             var sampled = samples;
 
-
             this.BetsGrid.ItemsSource = sampled;
             InformationTextblock.Text = string.Format("sampled data: {0}", sampled.Count());
-
-            //sampledData
         }
 
 
@@ -319,18 +314,11 @@ namespace BettingUI.Screens
                         break;
                     case 2:
                         {
-                            var monthlyGroupedResults = operations.GroupBy(x => new { Month = x.OperationDate.Month, Year = x.OperationDate.Year })
-                                                        .Select(group => new
-                                                        {
-                                                            Month = group.Key,
-                                                            MonthlyValue = group.Select(s => s.AfterBetMoney).LastOrDefault(),
-                                                        });
+                            //var minDate = DateTimeAxis.ToDouble( monthlyGroupedResults.Min(z => new DateTime(z.Month.Year, z.Month.Month, 01)));
+                            //var maxDate = DateTimeAxis.ToDouble(monthlyGroupedResults.Max(z => new DateTime(z.Month.Year, z.Month.Month, 01)));
 
-                            var minDate = DateTimeAxis.ToDouble( monthlyGroupedResults.Min(z => new DateTime(z.Month.Year, z.Month.Month, 01)));
-                            var maxDate = DateTimeAxis.ToDouble(monthlyGroupedResults.Max(z => new DateTime(z.Month.Year, z.Month.Month, 01)));
-
-                            ChartLineSeries.ItemsSource = new List<DataPoint>(monthlyGroupedResults.Select(s=> new DataPoint(DateTimeAxis.ToDouble(new DateTime(s.Month.Year, s.Month.Month, 01)) , s.MonthlyValue)));
-                            //OxyChart.Axes.Add(new DateTimeAxis { Position = AxisPosition.Bottom, Minimum = minDate, Maximum = maxDate, StringFormat = "MM/YYYY" });
+                            //ChartLineSeries.ItemsSource = new List<DataPoint>(monthlyGroupedResults.Select(s=> new DataPoint(DateTimeAxis.ToDouble(new DateTime(s.Month.Year, s.Month.Month, 01)) , s.MonthlyValue)));
+                            ////OxyChart.Axes.Add(new DateTimeAxis { Position = AxisPosition.Bottom, Minimum = minDate, Maximum = maxDate, StringFormat = "MM/YYYY" });
                         }
                         
                         break;
@@ -354,6 +342,16 @@ namespace BettingUI.Screens
                 this.operations = selected.OperationsPerformed;
                 this.SetChartData();
             }
+        }
+
+        private void GetMonthlyGains()
+        {
+            var monthlyGroupedResults = operations.GroupBy(x => new { Month = x.OperationDate.Month, Year = x.OperationDate.Year })
+                                                        .Select(group => new
+                                                        {
+                                                            Month = group.Key,
+                                                            MonthlyValue = group.Select(s => s.AfterBetMoney).LastOrDefault(),
+                                                        }).ToList();
         }
     }
 }
