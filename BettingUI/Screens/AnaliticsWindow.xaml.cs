@@ -190,7 +190,7 @@ namespace BettingUI.Screens
                         sample.TotalProfits = totalprofits;
                         sample.RiskFactor = Math.Round(riskFactor, 2);
                         sample.OperationsPerformed = operationsPerformed;
-                        GetMonthlyGains();
+                        GetMonthlyGains(sample.OperationsPerformed);
                         samples.Add(sample);
                     }
                 }
@@ -344,9 +344,9 @@ namespace BettingUI.Screens
             }
         }
 
-        private void GetMonthlyGains()
+        private void GetMonthlyGains(List<Operation> opers)
         {
-            var monthlyGroupedResults = operations.GroupBy(x => new { Month = x.OperationDate.Month, Year = x.OperationDate.Year })
+            var monthlyGroupedResults = opers.GroupBy(x => new { Month = x.OperationDate.Month, Year = x.OperationDate.Year })
                                                         .Select(group => new
                                                         {
                                                             Month = group.Key,
