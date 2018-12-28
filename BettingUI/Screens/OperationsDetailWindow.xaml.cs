@@ -24,7 +24,7 @@ namespace BettingUI.Screens
         {
             InitializeComponent();
 
-
+            this.OperationsGrid.ItemsSource = Operations;
         }
     }
 }

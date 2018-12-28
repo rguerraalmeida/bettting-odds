@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="OperationsDetailWindow" Height="450" Width="800">
     <Grid>
-        <DataGrid x:Name="BetsGrid" Margin="10" SelectionChanged="BetsGrid_SelectionChanged"/>
+        <DataGrid x:Name="OperationsGrid" Margin="10" />
 
     </Grid>
 </Window>

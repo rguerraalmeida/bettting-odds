@@ -32,7 +32,7 @@
                 <oxy:LineSeries x:Name="ChartLineSeries" />
             </oxy:Plot.Series>
         </oxy:Plot>
-        <ComboBox Name="ChartOperationsValue" HorizontalAlignment="Right" Margin="0,45,10,0" VerticalAlignment="Top" Width="237" SelectionChanged="ChartOperationsValue_SelectionChanged">
+        <ComboBox Name="ChartOperationsValue" HorizontalAlignment="Right" Margin="0,46,90,0" VerticalAlignment="Top" Width="237" SelectionChanged="ChartOperationsValue_SelectionChanged">
             <ComboBoxItem Name="cbi1">AfterBetMoney</ComboBoxItem>
             <ComboBoxItem Name="cbi2">BetValue</ComboBoxItem>
             <ComboBoxItem Name="cbi3">MonthlyValue</ComboBoxItem>
@@ -43,5 +43,6 @@
         <TextBox x:Name="StarYearTextbox" HorizontalAlignment="Left" Height="23" Margin="548,41,0,0" TextWrapping="Wrap" Text="2007" VerticalAlignment="Top" Width="120"/>
         <TextBlock HorizontalAlignment="Left" Margin="489,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="54" Height="15" Text="Start Year
                    "/>
+        <Button Content="Details" HorizontalAlignment="Right" Margin="0,45,10,0" VerticalAlignment="Top" Width="75" x:Name="RunAnalysisButton_Copy" Click="RunAnalysisButton_Copy_Click" />
     </Grid>
 </Controls:MetroWindow>

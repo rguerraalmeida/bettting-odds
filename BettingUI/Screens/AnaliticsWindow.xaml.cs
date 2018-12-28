@@ -353,5 +353,11 @@ namespace BettingUI.Screens
                                                             MonthlyValue = group.Select(s => s.AfterBetMoney).LastOrDefault(),
                                                         }).ToList();
         }
+
+        private void RunAnalysisButton_Copy_Click(object sender, RoutedEventArgs e)
+        {
+            OperationsDetailWindow details = new OperationsDetailWindow(this.operations);
+            details.Show();
+        }
     }
 }
