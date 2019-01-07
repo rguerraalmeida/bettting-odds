@@ -56,65 +56,65 @@ namespace BettingUI.Screens
             ComputeAll();
         }
 
-        private void ComputeStrategies()
-        {
-            //List<int> initialValues = new List<int>() { /*100, 200, 500, 1000, */ 2000 /*, 5000 */};
-            //List<double> minimumOdds = Enumerable.Range(30, 1).Select(x => x / 10.0).ToList();
-            //List<int> profitOnBets = new List<int>() { 100 /*35, 40, 45, 50, 60, 70, 75, 80*/ };
+        //private void ComputeStrategies()
+        //{
+        //    //List<int> initialValues = new List<int>() { /*100, 200, 500, 1000, */ 2000 /*, 5000 */};
+        //    //List<double> minimumOdds = Enumerable.Range(30, 1).Select(x => x / 10.0).ToList();
+        //    //List<int> profitOnBets = new List<int>() { 100 /*35, 40, 45, 50, 60, 70, 75, 80*/ };
 
-            double.TryParse(this.MinimumOddBetTextbox.Text, out double minimumOddValue);
-            int.TryParse(this.ProfitOnBetTextbox.Text, out int profitOnBetValue);
-            int.TryParse(this.InitialMoneyTextbox.Text, out int currentMoney);
+        //    double.TryParse(this.MinimumOddBetTextbox.Text, out double minimumOddValue);
+        //    int.TryParse(this.ProfitOnBetTextbox.Text, out int profitOnBetValue);
+        //    int.TryParse(this.InitialMoneyTextbox.Text, out int currentMoney);
 
-            List<int> initialValues = new List<int>() { currentMoney };
-            List<double> minimumOdds = new List<double>() { minimumOddValue };
-            List<int> profitOnBets = new List<int>() { profitOnBetValue };
-
-
-            List<SampleData> samples = new List<SampleData>();
-
-            List<IStrategy> strategies = new List<IStrategy>() { new MartingaleStrategie() };
-
-            var database = Database.OpenNamedConnection("main-database");
-            List<SportMatch> sportmatches = database.SportMatch.All();
+        //    List<int> initialValues = new List<int>() { currentMoney };
+        //    List<double> minimumOdds = new List<double>() { minimumOddValue };
+        //    List<int> profitOnBets = new List<int>() { profitOnBetValue };
 
 
-            var i = 0;
-            var totalIterations = strategies.Count() * initialValues.Count() * minimumOdds.Count() * profitOnBets.Count();
-            this.TotalIterationsTextbox.Text = totalIterations.ToString();
+        //    List<SampleData> samples = new List<SampleData>();
 
-            foreach (var strategy in strategies)
-            {
-                foreach (var value in initialValues)
-                {
-                    foreach (var minimum in minimumOdds)
-                    {
-                        foreach (var profit in profitOnBets)
-                        {
-                            i++;
-                            //CurrentIterationTextbox.Text = i.ToString();
-                            var sample = new SampleData() { StrategyName = strategy.Name, InitialValue = value, OddValue = minimum, ProfitOnBet = profit };
-                            var matchesdata = new OddsAtInterval().PickSampleData(sportmatches, minimumOddValue, minimumOddValue+3);
+        //    List<IStrategy> strategies = new List<IStrategy>() { new MartingaleStrategie() };
 
-                            if (matchesdata.Count() == 0) break;
-
-                            strategy.Calculate(matchesdata, value, minimum, profit, out double maxbetvalue, out double totalprofits, out double riskFactor);
-                            sample.MaxBetValue = maxbetvalue;
-                            sample.TotalProfits = totalprofits;
-                            sample.RiskFactor = Math.Round(riskFactor, 2);
-                            samples.Add(sample);
-                        }
-                    }
-                }
-            }
-
-            var sampled = samples.Where(s => s.TotalProfits > s.InitialValue);
-            this.BetsGrid.ItemsSource = sampled;
-            InformationTextblock.Text = string.Format("sampled data: {0}", sampled.Count());
+        //    var database = Database.OpenNamedConnection("main-database");
+        //    List<SportMatch> sportmatches = database.SportMatch.All();
 
 
-            //sampledData
-        }
+        //    var i = 0;
+        //    var totalIterations = strategies.Count() * initialValues.Count() * minimumOdds.Count() * profitOnBets.Count();
+        //    this.TotalIterationsTextbox.Text = totalIterations.ToString();
+
+        //    foreach (var strategy in strategies)
+        //    {
+        //        foreach (var value in initialValues)
+        //        {
+        //            foreach (var minimum in minimumOdds)
+        //            {
+        //                foreach (var profit in profitOnBets)
+        //                {
+        //                    i++;
+        //                    //CurrentIterationTextbox.Text = i.ToString();
+        //                    var sample = new SampleData() { StrategyName = strategy.Name, InitialValue = value, OddValue = minimum, ProfitOnBet = profit };
+        //                    var matchesdata = new OddsAtInterval().PickSampleData(sportmatches, minimumOddValue, minimumOddValue + 3);
+
+        //                    if (matchesdata.Count() == 0) break;
+
+        //                    strategy.Calculate(matchesdata, value, minimum, profit, out double maxbetvalue, out double totalprofits, out double riskFactor);
+        //                    sample.MaxBetValue = maxbetvalue;
+        //                    sample.TotalProfits = totalprofits;
+        //                    sample.RiskFactor = Math.Round(riskFactor, 2);
+        //                    samples.Add(sample);
+        //                }
+        //            }
+        //        }
+        //    }
+
+        //    var sampled = samples.Where(s => s.TotalProfits > s.InitialValue);
+        //    this.BetsGrid.ItemsSource = sampled;
+        //    InformationTextblock.Text = string.Format("sampled data: {0}", sampled.Count());
+
+
+        //    //sampledData
+        //}
 
         private bool ValidateFields()
         {
@@ -153,9 +153,19 @@ namespace BettingUI.Screens
 
             List<SampleData> samples = new List<SampleData>();
 
-            List<IStrategy> strategies = new List<IStrategy>() { new MartingaleStrategie() };
-            List<ISamplePicker> samplePickers = new List<ISamplePicker>() { new AllDataSamplePicker(), new OddsAtInterval() };
-            List<IOddPicker> oddPickers = new List<IOddPicker>() { new BiggerOddPicker(), new EasierOddPicker(), new MiddleOddPicker() };
+            List<IStrategy> strategies = new List<IStrategy>() {
+                new MartingaleStrategie(),
+            };
+
+            List<ISamplePicker> samplePickers = new List<ISamplePicker>() {
+                new AllDataSamplePicker(),
+                //new OddsAtInterval(),
+            };
+            List<IOddPicker> oddPickers = new List<IOddPicker>() {
+                new EasierOddPicker(),
+                //new BiggerOddPicker(),
+                //new MiddleOddPicker(),
+            };
 
             //List<ISamplePicker> samplePickers = new List<ISamplePicker>() { new AllDataSamplePicker() };
             //List<IOddPicker> oddPickers = new List<IOddPicker>() { new MiddleOddPicker() };
@@ -320,7 +330,7 @@ namespace BettingUI.Screens
                             //ChartLineSeries.ItemsSource = new List<DataPoint>(monthlyGroupedResults.Select(s=> new DataPoint(DateTimeAxis.ToDouble(new DateTime(s.Month.Year, s.Month.Month, 01)) , s.MonthlyValue)));
                             ////OxyChart.Axes.Add(new DateTimeAxis { Position = AxisPosition.Bottom, Minimum = minDate, Maximum = maxDate, StringFormat = "MM/YYYY" });
                         }
-                        
+
                         break;
                     default:
                         break;

@@ -17,118 +17,52 @@ namespace BettingStrategies.Strategies
         public string Name { get { return "MartingaleStrategie"; } }
 
 
-        /// <summary>
-        /// Calculates the strategy
-        /// </summary>
-        /// <param name="sampleData"></param>
-        /// <param name="initialValue"></param>
-        /// <param name="oddValue"></param>
-        /// <param name="profitOnBet"></param>
-        /// <param name="maxBetValue"></param>
-        /// <param name="totalProfits"></param>
-        public void Calculate(List<SportMatch> sampleData,  int initialValue, double oddValue, int profitOnBet, out double maxBetValue, out double totalProfits, out double riskFactor)
+        public ResultsData Calculate(List<SportMatch> sampleData, ISamplePicker samplePicker, double minValue, double maxValue, IOddPicker OddPicker, int initialValue, int profitOnBet )
         {
             int i = 0;
             double currentMoney = initialValue;
-            List<Operation> operations = new List<Operation>();
+            double wallet = 0;
 
-            var sportMatches = sampleData;
-            foreach (var gameMatch in sportMatches)
-            {
-                i++;
-                //this just gets the odd we are supposed to bet into, in this one we are skipping draws double bets on draws and wins
-                dynamic bestOdd = new { Odd = -1, ExpectedResult = "I" }; ;
-
-                if (gameMatch.HtOdd > gameMatch.DrawOdd && gameMatch.HtOdd > gameMatch.AtOdd)
-                {
-                    bestOdd = new { Odd = gameMatch.HtOdd, ExpectedResult = "H" };
-                }
-
-                if (gameMatch.DrawOdd > gameMatch.HtOdd && gameMatch.DrawOdd > gameMatch.AtOdd)
-                {
-                    bestOdd = new { Odd = gameMatch.DrawOdd, ExpectedResult = "D" };
-                }
-
-                if (gameMatch.AtOdd > gameMatch.HtOdd && gameMatch.AtOdd > gameMatch.DrawOdd)
-                {
-                    bestOdd = new { Odd = gameMatch.AtOdd, ExpectedResult = "A" };
-                }
-
-                if (bestOdd.Odd == -1)
-                {
-                    continue;
-                }
-
-                double waveLoss = operations.OrderByDescending(b => b.Id).TakeWhile(b => b.Win == false).Select(b => b.BetValue).Sum();
-                var totalLossPlusBetProfit = waveLoss + profitOnBet;
-
-                var betValue = Math.Round(totalLossPlusBetProfit / bestOdd.Odd, 2);
-
-                if (currentMoney < betValue)
-                {
-                    currentMoney = 0;
-                    break;
-                }
-
-                var beforeMoney = currentMoney;
-                var risk = betValue / currentMoney * 100;
-
-                if (gameMatch.Result == bestOdd.ExpectedResult)
-                {
-                    currentMoney += betValue * bestOdd.Odd;
-                    operations.Add(new Operation() { Id = i, OperationType = OperationType.Bet, InitialMoney = beforeMoney, Odd = bestOdd.Odd, BetValue = betValue, AfterBetMoney = currentMoney, Win = true, RiskFactor = risk });
-                }
-                else if (gameMatch.Result != bestOdd.ExpectedResult)
-                {
-                    currentMoney -= betValue;
-                    operations.Add(new Operation() { Id = i, OperationType = OperationType.Bet, InitialMoney = beforeMoney, Odd = bestOdd.Odd, BetValue = betValue, AfterBetMoney = currentMoney, Win = false, RiskFactor = risk });
-                }
-
-                if (currentMoney <= 0)
-                {
-                    break;
-                }
-            }
-
-            if (currentMoney <= 0)
-            {
-                maxBetValue = 0;
-                totalProfits = 0;
-                riskFactor = 100;
-            }
-            else
-            { 
-                maxBetValue = Math.Round(operations.Max(s => s.BetValue), 2);
-                totalProfits = Math.Round(operations.Last().AfterBetMoney - initialValue, 2);
-                riskFactor = operations.Max(o => o.RiskFactor);
-            }
-        }
-
-        public void Calculate(List<SportMatch> sampleData, ISamplePicker samplePicker, double minValue, double maxValue, IOddPicker OddPicker, int initialValue, int profitOnBet, out double maxBetValue, out double totalProfits, out double riskFactor, out double consecutiveLosses, out List<Operation> operationsPerformed)
-        {
-            int i = 0;
-            double currentMoney = initialValue;
             List<Operation> operations = new List<Operation>();
 
             var sportMatches = samplePicker.PickSampleData(sampleData, minValue, maxValue);
 
-            if (sportMatches.Count() == 0)
+            if (!sportMatches.Any())
             {
-                maxBetValue = 0;
-                totalProfits = 0;
-                riskFactor = 0;
-                operationsPerformed = new List<Operation>();
-                consecutiveLosses = 0;
-                return;
+                return new ResultsData()
+                {
+                    OperationsPerformed = new List<Operation>(),
+                };
             }
+
+            var currentMonth = sportMatches.First().Date.ToString("yyyyMM");
+
 
             foreach (var gameMatch in sportMatches)
             {
                 i++;
+
+                var gameMonth = gameMatch.Date.ToString("yyyyMM");
+
+                if (currentMonth != gameMonth)
+                {
+                    currentMonth = gameMonth;
+
+                    if (currentMoney > initialValue)
+                    {
+                        var profitsSoFar = currentMoney - initialValue;
+                        wallet += profitsSoFar;
+                        currentMoney -= profitsSoFar;
+
+
+                    }
+                }
+
+
                 //this just gets the odd we are supposed to bet into, in this one we are skipping draws, double bets on draws, and wins
-                var bestOdd = OddPicker.PickOdd(gameMatch);
-    
-                if (bestOdd.OddValue == -1)
+                var selectedOdd = OddPicker.PickOdd(gameMatch);
+
+                if (selectedOdd.OddValue == -1)
                 {
                     continue;
                 }
@@ -136,7 +70,7 @@ namespace BettingStrategies.Strategies
                 double waveLoss = operations.OrderByDescending(b => b.Id).TakeWhile(b => b.Win == false).Select(b => b.BetValue).Sum();
                 var totalLossPlusBetProfit = waveLoss + profitOnBet;
 
-                var betValue = Math.Round(totalLossPlusBetProfit / bestOdd.OddValue, 2);
+                var betValue = Math.Round(totalLossPlusBetProfit / selectedOdd.OddValue, 2);
 
                 if (currentMoney < betValue)
                 {
@@ -144,21 +78,21 @@ namespace BettingStrategies.Strategies
                     break;
                 }
 
-                var beforeMoney = currentMoney;
-                var risk = betValue / currentMoney * 100;
-                 
-                if (gameMatch.Result == bestOdd.ExpectedResult)
+                var beforeMoney = Math.Round(currentMoney, 2);
+                var risk = Math.Round(betValue / currentMoney * 100, 2);
+
+                if (gameMatch.Result == selectedOdd.ExpectedResult)
                 {
-                    currentMoney += betValue * bestOdd.OddValue;
-                    operations.Add(new Operation() { Id = i, OperationDate = gameMatch.Date, OperationType = OperationType.Bet, InitialMoney = beforeMoney, Odd = bestOdd.OddValue, BetValue = betValue, AfterBetMoney = currentMoney, Win = true, RiskFactor = risk });
+                    currentMoney += betValue * selectedOdd.OddValue;
+                    operations.Add(new Operation() { Id = i, OperationDate = gameMatch.Date, OperationType = OperationType.Bet, InitialMoney = beforeMoney, Odd = selectedOdd.OddValue, BetValue = betValue, AfterBetMoney = currentMoney, Win = true, RiskFactor = risk });
                 }
-                else if (gameMatch.Result != bestOdd.ExpectedResult)
+                else if (gameMatch.Result != selectedOdd.ExpectedResult)
                 {
                     currentMoney -= betValue;
-                    operations.Add(new Operation() { Id = i, OperationDate = gameMatch.Date, OperationType = OperationType.Bet, InitialMoney = beforeMoney, Odd = bestOdd.OddValue, BetValue = betValue, AfterBetMoney = currentMoney, Win = false, RiskFactor = risk });
+                    operations.Add(new Operation() { Id = i, OperationDate = gameMatch.Date, OperationType = OperationType.Bet, InitialMoney = beforeMoney, Odd = selectedOdd.OddValue, BetValue = betValue, AfterBetMoney = currentMoney, Win = false, RiskFactor = risk });
                 }
 
-                
+
 
                 if (currentMoney <= 0)
                 {
@@ -166,20 +100,7 @@ namespace BettingStrategies.Strategies
                 }
             }
 
-            if (currentMoney <= 0)
-            {
-                maxBetValue = 0;
-                totalProfits = 0;
-                riskFactor = 100;
-            }
-            else
-            {
-                maxBetValue = Math.Round(operations.Max(s => s.BetValue), 2);
-                totalProfits = Math.Round(operations.Last().AfterBetMoney - initialValue, 2);
-                riskFactor = operations.Max(o => o.RiskFactor);
-            }
 
-            operationsPerformed = operations;
 
 
             //Count consecutives losses 
@@ -190,8 +111,33 @@ namespace BettingStrategies.Strategies
                     OperationResult = group.First(),
                     Count = group.Count(),
                 });
-            
-            consecutiveLosses = groupedResults.Where(w => w.OperationResult.Win == false).Max(m => m.Count);
+
+            var consecutiveLosses = groupedResults.Where(w => w.OperationResult.Win == false).Max(m => m.Count);
+
+
+            if (currentMoney <= 0)
+            {
+                return new ResultsData()
+                {
+                    OperationsPerformed = operations,
+                    RiskFactor = 100,
+                    ConsecutiveLosses = consecutiveLosses,
+                };
+            }
+            else
+            {
+                return new ResultsData()
+                {
+                    MaxBetValue = Math.Round(operations.Max(s => s.BetValue), 2),
+                    OperationsPerformed = operations,
+                    RiskFactor = operations.Max(o => o.RiskFactor),
+                    TotalProfits = wallet + currentMoney,
+                    ConsecutiveLosses = consecutiveLosses,
+
+                };
+            }
+
         }
+
     }
 }

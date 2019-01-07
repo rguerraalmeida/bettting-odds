@@ -1,8 +1,12 @@
 -- Adicionar a possibilidade de sair da estartegia quando rebentar e recomeçar do zero, 
 isto evita que nunca se façam apostas maiores do que o valor inicial de conta ou definir um valor para isto 
 ou uma percentagem , do estilo carteira a 90% paro e recomeço o sistema Martingdale.
-A perca é a mesma mas faz com que se esteja mais tempo em jogo, mesmo que isso signifique dar como perdidas as apostas / dinheiro
+A perda é a mesma mas faz com que se esteja mais tempo em jogo, mesmo que isso signifique dar como perdidas as apostas / dinheiro
 
 - Permitir apostar em mais que um resultado num jogo, estilo vitoria e empate. para isso o valor da aposta tem que dobrar 
 e temos que calcular as odds dessa aposta
+
+- Permitir escolher apenas uma equipa ou várias de uma só liga ou de multiplas ligas, estilo favoritos
+
+- Permitir analisar o benchmark retirando valores mensais, ainda que só quando estiver positivo
 
