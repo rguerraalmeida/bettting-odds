@@ -152,6 +152,7 @@ namespace BettingUI.Screens
             int.TryParse(this.StarYearTextbox.Text, out int startYear);
 
             List<SampleData> samples = new List<SampleData>();
+            List<ResultsData> results = new List<ResultsData>();
 
             List<IStrategy> strategies = new List<IStrategy>() {
                 new MartingaleStrategie(),
@@ -195,13 +196,12 @@ namespace BettingUI.Screens
                         //CurrentIterationTextbox.Text = i.ToString();
                         var sample = new SampleData() { StrategyName = strategy.Name, SamplePickerName = samplePicker.Name, OddPickerName = oddpicker.Name, InitialValue = initialMoney, OddValue = minimumOddValue, ProfitOnBet = profitOnBetValue };
 
-                        strategy.Calculate(sportmatches, samplePicker, minimumOddValue, maximumOddValue, oddpicker, initialMoney, profitOnBetValue, out double maxbetvalue, out double totalprofits, out double riskFactor, out double consecutiveLosses, out List<Operation> operationsPerformed);
-                        sample.MaxBetValue = maxbetvalue;
-                        sample.TotalProfits = totalprofits;
-                        sample.RiskFactor = Math.Round(riskFactor, 2);
-                        sample.OperationsPerformed = operationsPerformed;
-                        GetMonthlyGains(sample.OperationsPerformed);
+                       var result = strategy.Calculate(sportmatches, samplePicker, minimumOddValue, maximumOddValue, oddpicker, initialMoney, profitOnBetValue);
+
+                        sample.ComputedResult = result;
+                        GetMonthlyGains(sample.ComputedResult.OperationsPerformed);
                         samples.Add(sample);
+                        
                     }
                 }
             }
@@ -349,7 +349,7 @@ namespace BettingUI.Screens
             SampleData selected = this.BetsGrid.SelectedItem as SampleData;
             if (selected != null)
             {
-                this.operations = selected.OperationsPerformed;
+                this.operations = selected.ComputedResult.OperationsPerformed;
                 this.SetChartData();
             }
         }

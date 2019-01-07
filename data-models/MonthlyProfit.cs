@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DataModels
+{
+    public class MonthlyProfit
+    {
+        public int Month { get; set; }
+        public int Year { get; set; }
+        public double Profit { get; set; }
+        public DateTime ProfitDate => new DateTime(Year, Month, 28);
+    }
+}

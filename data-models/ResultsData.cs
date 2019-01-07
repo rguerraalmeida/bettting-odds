@@ -15,15 +15,8 @@ namespace DataModels
 
         public List<Operation> OperationsPerformed { get; set; }
 
-        public int NumberOperations
-        {
-            get
-            {
-                return OperationsPerformed.Count();
-            }
-        }
+        public int NumberOperations => OperationsPerformed.Count();
 
-
-        public List<double> MonthlyGains { get; set; }
+        public List<MonthlyProfit> MonthlyProfit { get; set; }
     }
 }

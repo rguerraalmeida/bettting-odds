@@ -17,7 +17,6 @@ namespace DataModels
         public string SamplePickerName { get; set; }
         public string OddPickerName { get; set; }
 
-     
-       
+        public ResultsData ComputedResult { get; set; }
     }
 }

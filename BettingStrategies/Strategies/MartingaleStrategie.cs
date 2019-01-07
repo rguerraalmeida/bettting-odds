@@ -22,6 +22,7 @@ namespace BettingStrategies.Strategies
             int i = 0;
             double currentMoney = initialValue;
             double wallet = 0;
+            List<MonthlyProfit> monthlyProfits = new List<MonthlyProfit>();
 
             List<Operation> operations = new List<Operation>();
 
@@ -35,27 +36,26 @@ namespace BettingStrategies.Strategies
                 };
             }
 
-            var currentMonth = sportMatches.First().Date.ToString("yyyyMM");
+            var currentMonth = sportMatches.First().Date;
 
 
             foreach (var gameMatch in sportMatches)
             {
                 i++;
 
-                var gameMonth = gameMatch.Date.ToString("yyyyMM");
+                var gameMonth = gameMatch.Date;
 
-                if (currentMonth != gameMonth)
+                if (currentMonth.ToString("yyyyMM") != gameMonth.ToString("yyyyMM"))
                 {
-                    currentMonth = gameMonth;
-
                     if (currentMoney > initialValue)
                     {
                         var profitsSoFar = currentMoney - initialValue;
                         wallet += profitsSoFar;
                         currentMoney -= profitsSoFar;
-
-
+                        monthlyProfits.Add(new MonthlyProfit() { Month = currentMonth.Month, Year = currentMonth.Year, Profit = profitsSoFar });
                     }
+
+                    currentMonth = gameMonth;
                 }
 
 
@@ -122,6 +122,7 @@ namespace BettingStrategies.Strategies
                     OperationsPerformed = operations,
                     RiskFactor = 100,
                     ConsecutiveLosses = consecutiveLosses,
+                    MonthlyProfit = monthlyProfits,
                 };
             }
             else
@@ -133,7 +134,7 @@ namespace BettingStrategies.Strategies
                     RiskFactor = operations.Max(o => o.RiskFactor),
                     TotalProfits = wallet + currentMoney,
                     ConsecutiveLosses = consecutiveLosses,
-
+                    MonthlyProfit = monthlyProfits,
                 };
             }
 
